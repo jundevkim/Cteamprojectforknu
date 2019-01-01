@@ -5,6 +5,18 @@
 
 void gotoxy(int, int);
 void drawMenu();
+void drawData();
+
+struct date {
+	int year, month, day;
+};
+
+struct meal {
+	struct date meal_calendary;
+	int meal_num;//메뉴 개수
+	char meal_menu[4][16];
+
+};
 
 void drawTable(int startpoint_y, int endpoint) {
 	/*
@@ -80,7 +92,7 @@ void drawMenu() {
 
 }
 
-void inputData() {
+void drawData(struct meal *p) {
 	/*
 		This function is purpose for input data which is data, food menu, or otherthings....
 		by manipulate each blank as elements in array.
@@ -106,30 +118,26 @@ void inputData() {
 	};
 
 	struct blankcoord blank[31] = {
-		{2,39}, {22, 3}, {42, 3}, {62, 3}, {82, 3}, {102, 3}, {122, 3},
+		{2,3}, {22, 3}, {42, 3}, {62, 3}, {82, 3}, {102, 3}, {122, 3},
 		{2,12}, {22, 12}, {42, 12}, {62, 12}, {82, 12}, {102, 12}, {122, 12},
 		{2,21}, {22, 21}, {42, 21}, {62, 21}, {82, 21}, {102, 21}, {122, 21},
 		{2,30}, {22, 30}, {42, 30}, {62, 30}, {82, 30}, {102, 30}, {122, 30},
 		{2,39}, {22, 39}, {42, 39}
 	};//X and Y coordinate in decarte for each blanks.
 
-	struct dummy dummy_data1;
-	dummy_data1.a = 1;
-	dummy_data1.b = 2;
-	dummy_data1.c = 123.123;
-
-	struct dummy dummy_data2;
-	dummy_data2.a = 11;
-	dummy_data2.b = 22;
-	dummy_data2.c = 112233.112233;
 
 	//이건 각 항목별로 실제로 데이터가 들어갈 동작부분임
 	//줄바꿈하려면 Y좌표를 직접 바꿔줘야함.
 	//인수로 받는 구조체 포인트 배열 개수는 해당달의 일의 개수가 될거 같기에 반복문에 조건 걸어두면 될거같음
-	for (i = 0; i < 2; i++) {
-		gotoxy(blank[0].x, blank[0].y);
-		printf("%d", dummy_data1.a);
+	//위에거는 main에서 처리해야할거같음
+
+	
+	for (i = 0; i < (p->meal_num); i++) {
+		gotoxy(blank[0].x, blank[0].y + i + 1);
+		printf("%s", p->meal_menu[i]);
+		
 	}
+	
 
 
 
