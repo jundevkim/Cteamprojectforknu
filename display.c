@@ -1,22 +1,9 @@
-#include <stdio.h>
-#include <conio.h>
-#include <stdlib.h>
-#include <Windows.h>
+#include "dataset.h"
 
 void gotoxy(int, int);
 void drawMenu();
-void drawData();
+void drawData(struct meal *);
 
-struct date {
-	int year, month, day;
-};
-
-struct meal {
-	struct date meal_calendary;
-	int meal_num;//메뉴 개수
-	char meal_menu[4][16];
-
-};
 
 void drawTable(int startpoint_y, int endpoint) {
 	/*
@@ -131,20 +118,39 @@ void drawData(struct meal *p) {
 	//인수로 받는 구조체 포인트 배열 개수는 해당달의 일의 개수가 될거 같기에 반복문에 조건 걸어두면 될거같음
 	//위에거는 main에서 처리해야할거같음
 
+
+
 	
-	for (i = 0; i < (p->meal_num); i++) {
-		gotoxy(blank[0].x, blank[0].y + i + 1);
-		printf("%s", p->meal_menu[i]);
+	for (i = 0; i < 31; i++) {
+		
+			gotoxy(blank[i].x, blank[i].y);
+			printf("%2d  %2d", (p+i)->meal_calendary.day, (p + i)->meal_calendary.mday);
+			
+			
+			for (j = 0; j < (p + i)->meal_num; j++) {
+				gotoxy(blank[i].x, blank[i].y + j + 1);
+				printf("%s", (p + i)->meal_menu[j]);
+			}
+		
 		
 	}
 	
 
+	/*
+	for (i = 0; i < (p->meal_num); i++) {
+		gotoxy(blank[0].x, blank[0].y + i + 1);
+		printf("%s", p->meal_menu[i]);
 
-
-
-
-
+	}
+	*/
 }
+
+
+
+
+
+
+
 
 
 

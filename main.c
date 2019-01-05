@@ -1,55 +1,33 @@
-#include <stdio.h>
-#include <conio.h>
-#include <stdlib.h>
-#include <Windows.h>
+#include "dataset.h"
 
 void gotoxy(int, int);
+void drawMenu();
+void drawTable(int, int);
+void storeData();
 
-void drawTable(int startpoint_y, int endpoint) {
-	/*
-		This function is purpose for drawing calendary table. I'm not sure to fix width, and height or change...
-		startpoint is the point which is draw at first and draw (0,startpoint_y).
-		endpoint is the point which is draw at last.
-	*/
-	int line, column;
 
+void main() {
+	int i, a, b, c;
+	system("mode con:cols=160 lines=60");
+	system("title ½Ä´ÜÇ¥");
+
+	drawTable(2, 2);
+
+	struct food_category bob = { {10}, "Çö¹Ì¹ä","°ËÀºÄá¹ä","Àâ°î¹ä","°ïµå·¹¹ä","½Ò¹ä","Å¬·Î·¼¶ó¹ä","°¨ÀÚ¹ä","¹äÁà¿ë","¹ä1","¹ä2","¹ä3" };
+	struct food_category gook = { {10}, "¼Ò°í±â±¹","¹Ì¿ª±¹","¹«±¹","±¹1","±¹2","±¹3","±¹4","±¹5","±¹6","±¹7","±¹8" };
+	struct food_category banchan = { {10}, "¼Ò°í±âÀåÁ¶¸²","¸êÄ¡ººÀ½","¹İÂù1","¹İÂù2","¹İÂù3","¹İÂù4","¹İÂù5","¹İÂù6","¹İÂù7","¹İÂù8","¹İÂù9" };
+	struct food_category jjige = { {10}, "±èÄ¡Âî°³","µÈÀåÂî°³","Âî°³1","Âî°³2","Âî°³3","Âî°³4","Âî°³5","Âî°³6","Âî°³7","Âî°³8","Âî°³9" };
+
+	struct meal *cal_meal = (struct meal *)malloc(sizeof(struct meal)*365);
+	srand((unsigned int)time(NULL));
+	input_data(cal_meal, &bob, &gook, &jjige, &banchan);
+	drawData(cal_meal);
+
+	gotoxy(159, 49);
+	
 	
 
-
-
-
-	
-	gotoxy(0, startpoint_y);
-	for (line = startpoint_y; line < 46 + startpoint_y; line++) {
-		printf("|");
-		if ((line - startpoint_y) == 0 || (line-startpoint_y) % 9  == 0) {
-			for (column = 0; column < 139; column++) {
-				gotoxy(column + 1, line);
-				if ((column + 1) % 20 == 0)printf("|");
-				printf("-");
-
-			}
-		}
-		else {
-			for (column = 0; column < 139; column++) {
-				gotoxy(column + 1, line);
-				if ((column + 1) % 20 == 0)printf("|");
-				printf(" ");
-
-			}
-
-		}
-		printf("|\n");
-	}
+	free(cal_meal);
 }
 
 
-void gotoxy(int x, int y)
-
-{
-
-	COORD Pos = { x , y };
-
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
-
-}
