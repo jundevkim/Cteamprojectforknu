@@ -5,6 +5,9 @@
 #include <time.h>
 #pragma warning(disable: 4996)
 
+//void check_3before(struct meal *, int *);
+void drawData_left(struct meal *, int *);
+
 struct date {
 	int year, month, day, mday;
 };
@@ -13,6 +16,7 @@ struct meal {
 	struct date meal_calendary;
 	int meal_num;//메뉴 개수
 	char meal_menu[4][16];
+	int x, y;
 
 };
 

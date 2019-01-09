@@ -7,7 +7,8 @@ void storeData();
 
 
 void main() {
-	int i, a, b, c;
+	int i, a, b, c, index = 0;//index는 배열 데이터가 어디를 표현해야 할지 알려줄 위치
+	char keyboard_value;
 	system("mode con:cols=160 lines=60");
 	system("title 식단표");
 
@@ -17,15 +18,45 @@ void main() {
 	struct food_category gook = { {10}, "소고기국","미역국","무국","국1","국2","국3","국4","국5","국6","국7","국8" };
 	struct food_category banchan = { {10}, "소고기장조림","멸치볶음","반찬1","반찬2","반찬3","반찬4","반찬5","반찬6","반찬7","반찬8","반찬9" };
 	struct food_category jjige = { {10}, "김치찌개","된장찌개","찌개1","찌개2","찌개3","찌개4","찌개5","찌개6","찌개7","찌개8","찌개9" };
+	struct food_category bread_meal = { {0} };//빵식
+	struct food_category noodle = { {0} };//면 종류
+
+
 
 	struct meal *cal_meal = (struct meal *)malloc(sizeof(struct meal)*365);
 	srand((unsigned int)time(NULL));
 	input_data(cal_meal, &bob, &gook, &jjige, &banchan);
-	drawData(cal_meal);
+	drawData(cal_meal, &index);
 
+
+	do {
+		
+		keyboard_value = getch();
+		fflush(stdin);
+		keyboard_value = getch();
+		switch (keyboard_value) {
+		case 77:
+			
+			system("cls");
+			drawTable(2, 2);
+			drawData(cal_meal, &index);
+			//오른쪽
+			break;
+		case 75:
+			system("cls");
+			drawTable(2, 2);
+			drawData_left(cal_meal, &index);
+			//왼쪽
+			break;
+		default:;//요긴 메뉴 버튼
+
+		}
+	} while (1);
+
+	//printf("%d\n", cal_meal->meal_num);
 	gotoxy(159, 49);
-	
-	
+
+
 
 	free(cal_meal);
 }

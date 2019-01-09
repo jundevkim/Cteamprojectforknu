@@ -6,20 +6,8 @@ void storeData() {
 		각각의 카테고리는 몇 종류의 음식이 있는지와 음식 이름을 데이터로 가지고 있습니다.
 	*/
 
-		//일단은 테스트용 데이터
-	/*
-	struct food_category bob = { {10}, "현미밥","검은콩밥","잡곡밥","곤드레밥","쌀밥","클로렐라밥","감자밥","밥줘용","밥1","밥2","밥3" };
-		struct food_category gook = { {10}, "소고기국","미역국","무국","국1","국2","국3","국4","국5","국6","국7","국8" };
-		struct food_category banchan = { {10}, "소고기장조림","멸치볶음","반찬1","반찬2","반찬3","반찬4","반찬5","반찬6","반찬7","반찬8","반찬9" };
-		struct food_category jjige = { {10}, "김치찌개","된장찌개","찌개1","찌개2","찌개3","찌개4","찌개5","찌개6","찌개7","찌개8","찌개9" };
-		*/
-		
+	
 
-		/*
-		char bob[100][16];
-		char gook[100][16];
-		char banchan[100][16];
-		*/
 /*
 		char tmp[16];
 
@@ -67,7 +55,8 @@ void storeData() {
 
 }
 
-void input_data(struct meal *cal_meal, struct food_category *bob, struct food_category *gook, struct food_category *jjige, struct food_category *banchan){
+void input_data(struct meal *cal_meal, struct food_category *bob, struct food_category *gook, struct food_category *jjige, struct food_category *banchan)
+{
 	int i, j, k;
 	
 	
@@ -91,14 +80,15 @@ void input_data(struct meal *cal_meal, struct food_category *bob, struct food_ca
 
 	
 	//일단 중복 조건 고려하지 않고 메뉴만 넣었을경우
+	i = 0;
 	
 	for (i = 0; i < 365; i++) {
 		switch ((cal_meal + i)->meal_num) {
 		case 3:
-			strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand()%9 + 1]);
+			strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % 9 + 1]);
 			strcpy((cal_meal + i)->meal_menu[1], (*gook).food_name[rand() % 9 + 1]);
 			strcpy((cal_meal + i)->meal_menu[2], (*banchan).food_name[rand() % 9 + 1]);
-			
+
 
 			break;
 		case 2:
@@ -116,6 +106,28 @@ void input_data(struct meal *cal_meal, struct food_category *bob, struct food_ca
 		}
 	}
 	
+		//check_3before(cal_meal, &i);//3일 이내에 중복 식단이 있는지 확인
+	
 
+	//하루 증가할때마다 x좌표값이 증가
+	//일주일 지날 때 마다 y좌표값이 하나 증가
+	for (i = 0; i < 365; i++) {
+		(cal_meal + i)->x = 2+ 20*(((cal_meal + i)->meal_calendary.day - 1) % 7);
+		(cal_meal + i)->y = 3 + 9 * (((cal_meal + i)->meal_calendary.day - 1) / 7);
+	
+	}
+	
+	
 }
 
+
+/*
+void check_3before(struct meal *cal_meal, int *p) {
+	if (*p == 0) {
+		(*p)++;
+	}
+	else if (*p == 1) {
+		if(cal_meal->meal_menu)
+	}
+}
+*/

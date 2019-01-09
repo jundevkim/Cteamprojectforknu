@@ -2,14 +2,14 @@
 
 void gotoxy(int, int);
 void drawMenu();
-void drawData(struct meal *);
+void drawData(struct meal *, int *);
 
 
 void drawTable(int startpoint_y, int endpoint) {
 	/*
 		This function is purpose for drawing calendary table. I'm not sure to fix width, and height or change...
-		startpoint is the point which is draw at first and draw (0,startpoint_y).
-		endpoint is the point which is draw at last.
+		startpoint is drawing at first and (0,startpoint_y).
+		endpoint is drawing at last.
 
 		Each blank is 10 heights, and 20 widhts.
 	*/
@@ -79,7 +79,7 @@ void drawMenu() {
 
 }
 
-void drawData(struct meal *p) {
+void drawData(struct meal *p, int *index) {
 	/*
 		This function is purpose for input data which is data, food menu, or otherthings....
 		by manipulate each blank as elements in array.
@@ -88,7 +88,7 @@ void drawData(struct meal *p) {
 
 	*/
 	
-	int i, j, k;
+	int i, j, k, tmp, end;
 
 	struct dummy{
 		int a ;
@@ -117,35 +117,91 @@ void drawData(struct meal *p) {
 	//줄바꿈하려면 Y좌표를 직접 바꿔줘야함.
 	//인수로 받는 구조체 포인트 배열 개수는 해당달의 일의 개수가 될거 같기에 반복문에 조건 걸어두면 될거같음
 	//위에거는 main에서 처리해야할거같음
-
-
-
 	
-	for (i = 0; i < 31; i++) {
-		
-			gotoxy(blank[i].x, blank[i].y);
-			printf("%2d  %2d", (p+i)->meal_calendary.day, (p + i)->meal_calendary.mday);
-			
-			
-			for (j = 0; j < (p + i)->meal_num; j++) {
-				gotoxy(blank[i].x, blank[i].y + j + 1);
-				printf("%s", (p + i)->meal_menu[j]);
-			}
-		
-		
+	
+	
+	switch ((p + *index)->meal_calendary.month) {
+	case 2: {
+		if (((p->meal_calendary.year) % 4 == 0) && ((p->meal_calendary.year) % 100 == 0))
+			end = 29;
+		else if (((p->meal_calendary.year) % 400 == 0))
+			end = 29;
+		else
+			end = 28;
 	}
+			break;
+
+	case 1: case 3: case 5: case 7: case 8:case 10: case 12: end = 31;
+			break;
+
+	default: end = 30;
+	}
+	gotoxy(2, 45);
+	printf("end = %d, index = %d", end, *index);
 	
+	gotoxy(2, 1);
+	printf("%d년", (p + *index)->meal_calendary.year);
+	
+
+	for (i = (p + *index)->meal_calendary.day ; i <= end; i++) {
+		gotoxy((p + *index)->x, (p + *index)->y);
+		printf("%d월 %d일 ", (p + *index)->meal_calendary.month, (p + *index)->meal_calendary.day);
+		(*index)++;
+		if (*index >= 365) {
+			*index = 0;
+			break;
+		}
+	}
+	gotoxy(5, 49);
+	printf("end = %d, index = %d", end, *index);
+
+	
+	
+	
+
 
 	/*
-	for (i = 0; i < (p->meal_num); i++) {
-		gotoxy(blank[0].x, blank[0].y + i + 1);
-		printf("%s", p->meal_menu[i]);
+	for (i = 0; i < 23; i++) {
 
+		gotoxy((p + i)->x, (p + i)->y);
+		printf("x = %d, y = %d ", (p + i)->x, (p + i)->y);
+		for (j = 0; j < (p + i)->meal_num; j++) {
+			gotoxy((p + i)->x, (p + i)->y + j + 1);
+			printf("%s", (p + i)->meal_menu[j]);
+		}
+		
 	}
 	*/
+	
+	
+
 }
 
+void drawData_left(struct meal *p, int *index) {
+	int i, j, k, tmp, end;
+	
+	if (*index < 0) {
+		*index = 364;
 
+	}
+	
+
+	
+	
+	
+	for (i = (p + *index)->meal_calendary.day; i > 0; i--) {
+		gotoxy((p + *index)->x, (p + *index)->y);
+		printf("%d월 %d일 ", (p + *index)->meal_calendary.month, (p + *index)->meal_calendary.day);
+		(*index)--;
+		if (*index < 0 ) {
+			*index = 364;
+			break;
+		}
+	}
+	
+	
+
+}
 
 
 
