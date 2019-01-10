@@ -58,6 +58,10 @@ void storeData() {
 void input_data(struct meal *cal_meal, struct food_category *bob, struct food_category *gook, struct food_category *jjige, struct food_category *banchan)
 {
 	int i, j, k;
+	int count;
+	int tot;
+	int flag, compare_num;
+	int tmp_index, tmp_before_indx;
 	
 	
 	time_t current;
@@ -74,40 +78,78 @@ void input_data(struct meal *cal_meal, struct food_category *bob, struct food_ca
 		current += 60 * 60 * 24;//하루 증가
 		cal_time = localtime(&current);
 
-		(cal_meal + i)->meal_num = rand() % 3 + 1;
+		
 
 	}//날짜 data & 메뉴 개수 입력
 
 	
 	//일단 중복 조건 고려하지 않고 메뉴만 넣었을경우
-	i = 0;
+	
 	
 	for (i = 0; i < 365; i++) {
-		switch ((cal_meal + i)->meal_num) {
-		case 3:
-			strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % 9 + 1]);
-			strcpy((cal_meal + i)->meal_menu[1], (*gook).food_name[rand() % 9 + 1]);
-			strcpy((cal_meal + i)->meal_menu[2], (*banchan).food_name[rand() % 9 + 1]);
+
+		
+		while (1) {
+			(cal_meal + i)->meal_num = rand() % 3 + 1;
+			flag = 0;
+			switch ((cal_meal + i)->meal_num) {
+			case 3:
+				strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % ((*bob).num)]);
+				strcpy((cal_meal + i)->meal_menu[1], (*gook).food_name[rand() % ((*gook).num)]);
+				strcpy((cal_meal + i)->meal_menu[2], (*banchan).food_name[rand() % ((*banchan).num)]);
 
 
-			break;
-		case 2:
-			strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % 9 + 1]);
-			strcpy((cal_meal + i)->meal_menu[1], (*jjige).food_name[rand() % 9 + 1]);
+				break;
+			case 2:
+				strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % ((*bob).num)]);
+				strcpy((cal_meal + i)->meal_menu[1], (*jjige).food_name[rand() % ((*jjige).num)]);
 
 
-			break;
-		case 1:
-			strcpy((cal_meal + i)->meal_menu[0], (*banchan).food_name[rand() % 9 + 1]);
+				break;
+			case 1:
+				strcpy((cal_meal + i)->meal_menu[0], (*banchan).food_name[rand() % ((*banchan).num)]);
 
 
-			break;
-		default:;
+				break;
+			default:;
+			}
+
+			/*********중복 메뉴 체크**********/
+
+			if (i == 0)break;
+
+			//3일전까지 비교
+			if (i == 1)compare_num = 2;//둘째날은 첫째날과 비교, 즉 하루만 비교하면됨
+			else if (i == 2)compare_num = 1;//따라서 셋째날은 이틀을 비교하면 됨
+			else compare_num = 0;//나머지는 3일 식단 중복이 안 나오게
+
+
+			for (tot = 1; tot <= 3 - compare_num; tot++) {
+				
+				for (j = 0; j < (cal_meal + i)->meal_num; j++) {
+					for (k = 0; k < (cal_meal + i - tot)->meal_num; k++) {
+						if (strcmp((cal_meal + i)->meal_menu[j], (cal_meal + i - tot)->meal_menu[k]) == 0)
+						{
+							flag = 1;//중복이 있음을 알려줄 변수
+							break;//중복 발견
+						}
+					}
+					if (flag == 1)break;//중복 발견
+
+				}
+				if (flag == 1)break;//중복 발견
+				
+			}
+
+
+
+
+
+			if (flag == 0)break;//최종적으로 중복이 없음을 확인
 		}
 	}
 	
-		//check_3before(cal_meal, &i);//3일 이내에 중복 식단이 있는지 확인
-	
+		
 
 	//하루 증가할때마다 x좌표값이 증가
 	//일주일 지날 때 마다 y좌표값이 하나 증가
@@ -121,13 +163,3 @@ void input_data(struct meal *cal_meal, struct food_category *bob, struct food_ca
 }
 
 
-/*
-void check_3before(struct meal *cal_meal, int *p) {
-	if (*p == 0) {
-		(*p)++;
-	}
-	else if (*p == 1) {
-		if(cal_meal->meal_menu)
-	}
-}
-*/

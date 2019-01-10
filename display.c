@@ -2,7 +2,6 @@
 
 void gotoxy(int, int);
 void drawMenu();
-void drawData(struct meal *, int *);
 
 
 void drawTable(int startpoint_y, int endpoint) {
@@ -40,6 +39,7 @@ void drawTable(int startpoint_y, int endpoint) {
 		}
 		printf("|\n");
 	}
+	
 }
 
 void drawMenu() {
@@ -63,23 +63,30 @@ void drawMenu() {
 	for (a = 0; a < 5; a++) printf("                   |");
 
 	gotoxy(41, 1);
-	printf("F1. test1");
+	printf("F1. 랜덤 식단 짜기");
 
 	gotoxy(61, 1);
-	printf("F2. test2");
+	printf("F2. 건강식 짜기");
 
 	gotoxy(81, 1);
-	printf("F3. test3");
+	printf("F3. 음식 추가/검색");
 
 	gotoxy(101, 1);
-	printf("F4. test4");
+	printf("F4. 저장/불러오기");
 
 	gotoxy(121, 1);
-	printf("F5. test5");
+	printf("F5. 종료하기");
+
+
+	gotoxy(1, 49);
+	printf("◀-----이전 식단 보기");
+
+	gotoxy(121, 49);
+	printf("다음 식단 보기-----▶");
 
 }
 
-void drawData(struct meal *p, int *index) {
+void drawData(struct meal *p, int *index_right, int *index_left) {
 	/*
 		This function is purpose for input data which is data, food menu, or otherthings....
 		by manipulate each blank as elements in array.
@@ -117,10 +124,13 @@ void drawData(struct meal *p, int *index) {
 	//줄바꿈하려면 Y좌표를 직접 바꿔줘야함.
 	//인수로 받는 구조체 포인트 배열 개수는 해당달의 일의 개수가 될거 같기에 반복문에 조건 걸어두면 될거같음
 	//위에거는 main에서 처리해야할거같음
+	//gotoxy(2, 45);
+	//printf(" index = %d",  *index_right);
+	*index_left = *index_right;
+
+
 	
-	
-	
-	switch ((p + *index)->meal_calendary.month) {
+	switch ((p + *index_right)->meal_calendary.month) {
 	case 2: {
 		if (((p->meal_calendary.year) % 4 == 0) && ((p->meal_calendary.year) % 100 == 0))
 			end = 29;
@@ -136,70 +146,64 @@ void drawData(struct meal *p, int *index) {
 
 	default: end = 30;
 	}
-	gotoxy(2, 45);
-	printf("end = %d, index = %d", end, *index);
+	
 	
 	gotoxy(2, 1);
-	printf("%d년", (p + *index)->meal_calendary.year);
+	printf("%d년 식단표", (p + *index_right)->meal_calendary.year);
 	
 
-	for (i = (p + *index)->meal_calendary.day ; i <= end; i++) {
-		gotoxy((p + *index)->x, (p + *index)->y);
-		printf("%d월 %d일 ", (p + *index)->meal_calendary.month, (p + *index)->meal_calendary.day);
-		(*index)++;
-		if (*index >= 365) {
-			*index = 0;
-			break;
-		}
-	}
-	gotoxy(5, 49);
-	printf("end = %d, index = %d", end, *index);
-
-	
-	
-	
-
-
-	/*
-	for (i = 0; i < 23; i++) {
-
-		gotoxy((p + i)->x, (p + i)->y);
-		printf("x = %d, y = %d ", (p + i)->x, (p + i)->y);
-		for (j = 0; j < (p + i)->meal_num; j++) {
-			gotoxy((p + i)->x, (p + i)->y + j + 1);
-			printf("%s", (p + i)->meal_menu[j]);
+	for (i = (p + *index_right)->meal_calendary.day ; i <= end; i++) {
+		gotoxy((p + *index_right)->x, (p + *index_right)->y);
+		printf("%d월 %d일 ", (p + *index_right)->meal_calendary.month, (p + *index_right)->meal_calendary.day);
+		
+		for (j = 0; j < (p + *index_right)->meal_num; j++) {
+			gotoxy((p + *index_right)->x, (p + *index_right)->y + j + 1);
+			printf("%s", (p + *index_right)->meal_menu[j]);
 		}
 		
-	}
-	*/
-	
-	
-
-}
-
-void drawData_left(struct meal *p, int *index) {
-	int i, j, k, tmp, end;
-	
-	if (*index < 0) {
-		*index = 364;
-
-	}
-	
-
-	
-	
-	
-	for (i = (p + *index)->meal_calendary.day; i > 0; i--) {
-		gotoxy((p + *index)->x, (p + *index)->y);
-		printf("%d월 %d일 ", (p + *index)->meal_calendary.month, (p + *index)->meal_calendary.day);
-		(*index)--;
-		if (*index < 0 ) {
-			*index = 364;
+		(*index_right)++; 
+		if (*index_right >= 365) {
+			*index_right = 0;
 			break;
 		}
 	}
 	
+}
+
+void drawData_left(struct meal *p, int *index_right, int *index_left) {
+	int i, j;
+
+	if (*index_left == 0) {
+		*index_right = 0;
+		*index_left = 364;
+	}
+	else {
+		*index_right = *index_left;
+		(*index_left)--;
+	}
+
+	gotoxy(2, 1);
+	printf("%d년", (p + *index_left)->meal_calendary.year);
+
 	
+	for (i = (p + *index_left)->meal_calendary.day; ;) {
+		gotoxy((p + *index_left)->x, (p + *index_left)->y);
+		printf("%d월 %d일 ", (p + *index_left)->meal_calendary.month, (p + *index_left)->meal_calendary.day);
+		
+		for (j = 0; j < (p + *index_left)->meal_num; j++) {
+			gotoxy((p + *index_left)->x, (p + *index_left)->y + j + 1);
+			printf("%s", (p + *index_left)->meal_menu[j]);
+		}
+
+		if ((p + *index_left)->meal_calendary.day == 1 || *index_left==0) {
+			break;
+		}
+
+		
+		(*index_left)--;
+		
+		
+	}
 
 }
 
