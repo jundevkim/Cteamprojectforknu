@@ -1,67 +1,74 @@
 #include "dataset.h"
 
-void storeData() {
+void storeData(struct food_category *bob, struct food_category *gook, struct food_category *jjige, struct food_category *banchan, struct food_category *bread_meal, struct food_category *noodle) {
 	/*
-		음식을 카테고리 별로 본류합니다.
+		음식을 추가하고, 카테고리 별로 본류합니다.
 		각각의 카테고리는 몇 종류의 음식이 있는지와 음식 이름을 데이터로 가지고 있습니다.
 	*/
 
 	
 
-/*
+
 		char tmp[16];
 
-		int i = 0, j = 0, k = 0, e = 0, t;//음식 카테고리에 대한 index값
-
-
-		for (t = 0; t < 5; t++) {
-			scanf("%s", tmp);
+		int index ;//음식 카테고리에 대한 index값
+		
+		fflush(stdin);
+		gets(tmp);
+		
 
 			if (strstr(tmp, "밥") != NULL) {
-				strcpy(bob.food_name[i], tmp);
-				i++;
-				bob.num = i;
+				index = (*bob).num;				
+				strcpy((*bob).food_name[index], tmp);
+				((*bob).num)++;
 
+			}
+			else if (strstr(tmp, "국수") != NULL) {
+				index = (*noodle).num;
+				strcpy((*noodle).food_name[index], tmp);
+				((*noodle).num)++;
 			}
 			else if (strstr(tmp, "국") != NULL) {
-				strcpy(gook.food_name[j], tmp);
-				j++;
-				gook.num = j;
+				index = (*gook).num;
+				strcpy((*gook).food_name[index], tmp);
+				((*gook).num)++;
 
 			}
-			else if (strstr(tmp, "지깨") != NULL) {
-				strcpy(jjige.food_name[e], tmp);
-				e++;
-				jjige.num = e;
+			else if (strstr(tmp, "찌개") != NULL) {
+				index = (*jjige).num;
+				strcpy((*jjige).food_name[index], tmp);
+				((*jjige).num)++;
+				
+			}
+			else if (strstr(tmp, "토스트") != NULL || strstr(tmp, "샌드위치") != NULL || strstr(tmp, "빵") != NULL) {
+				index = (*bread_meal).num;				
+				strcpy((*bread_meal).food_name[index], tmp);				
+				((*bread_meal).num)++;
+				
 			}
 			else {
-				strcpy(banchan.food_name[k], tmp);
-				k++;
-				banchan.num = k;
+				index = (*banchan).num;
+				strcpy((*banchan).food_name[index], tmp);
+				((*banchan).num)++;
 
 			}//반찬임, 반찬은 구분할 수 있게 해줄 음운이 안 보여서 마지막에 놔두게 좋을듯
-		}
+		
 
 
 
-		printf("밥으로 분류된 음식의 개수는 %d개 이며,\n", bob.num);
-		printf("국으로 분류된 음식의 개수는 %d개 이며,\n", gook.num);
-		printf("반찬으로 분류된 음식의 개수는 %d개 이며,\n", banchan.num);
-
-		*/
 	
 
-
+			printf("음식 추가!");
+			Sleep(2000);
 
 }
 
-void input_data(struct meal *cal_meal, struct food_category *bob, struct food_category *gook, struct food_category *jjige, struct food_category *banchan)
+void input_data(struct meal *cal_meal, struct food_category *bob, struct food_category *gook, struct food_category *jjige, struct food_category *banchan, struct food_category *bread_meal, struct food_category *noodle)
 {
 	int i, j, k;
-	int count;
+	int percentage;
 	int tot;
 	int flag, compare_num;
-	int tmp_index, tmp_before_indx;
 	
 	
 	time_t current;
@@ -90,28 +97,55 @@ void input_data(struct meal *cal_meal, struct food_category *bob, struct food_ca
 
 		
 		while (1) {
-			(cal_meal + i)->meal_num = rand() % 3 + 1;
+			percentage = rand() % 100;//1식이 1퍼센트 확률로 나오기 하기 위함(0, 1, 2, 3 중에서 0이 나올 확률)
 			flag = 0;
-			switch ((cal_meal + i)->meal_num) {
-			case 3:
-				strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % ((*bob).num)]);
-				strcpy((cal_meal + i)->meal_menu[1], (*gook).food_name[rand() % ((*gook).num)]);
-				strcpy((cal_meal + i)->meal_menu[2], (*banchan).food_name[rand() % ((*banchan).num)]);
+			if (percentage != 0) {
+				(cal_meal + i)->meal_num = rand() % 2 + 2;
+				switch ((cal_meal + i)->meal_num) {//3 또는 2식 짜는 부분
+				case 3:
+					if (rand() % 2 == 0) {
+						strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % ((*bob).num)]);
+						strcpy((cal_meal + i)->meal_menu[1], (*gook).food_name[rand() % ((*gook).num)]);
+						strcpy((cal_meal + i)->meal_menu[2], (*banchan).food_name[rand() % ((*banchan).num)]);
+					}
+					else {
+						strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % ((*bob).num)]);
+						strcpy((cal_meal + i)->meal_menu[1], (*jjige).food_name[rand() % ((*jjige).num)]);
+						strcpy((cal_meal + i)->meal_menu[2], (*banchan).food_name[rand() % ((*banchan).num)]);
+
+					}
+
+					break;
+				case 2:
+					strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % ((*bob).num)]);
+					strcpy((cal_meal + i)->meal_menu[1], (*jjige).food_name[rand() % ((*jjige).num)]);
 
 
-				break;
-			case 2:
-				strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % ((*bob).num)]);
-				strcpy((cal_meal + i)->meal_menu[1], (*jjige).food_name[rand() % ((*jjige).num)]);
-
-
-				break;
-			case 1:
-				strcpy((cal_meal + i)->meal_menu[0], (*banchan).food_name[rand() % ((*banchan).num)]);
-
-
-				break;
-			default:;
+					break;
+				default:
+					system("cls");
+					printf("발견!");
+					getch();
+					exit(1);
+					;
+				}
+			}
+			else {//단일식 짜는 부분
+				(cal_meal + i)->meal_num = 1;
+				if ((*bread_meal).num > 0 && (*noodle).num > 0) {
+					switch (rand() % 2 + 1) {
+					case 1:strcpy((cal_meal + i)->meal_menu[0], (*noodle).food_name[rand() % ((*noodle).num)]);
+						break;
+					case 2:strcpy((cal_meal + i)->meal_menu[0], (*bread_meal).food_name[rand() % ((*bread_meal).num)]);
+						break;
+					default:
+						system("cls");
+						printf("발견!");
+						getch();
+						exit(1);
+					}
+				}
+				
 			}
 
 			/*********중복 메뉴 체크**********/
@@ -137,7 +171,7 @@ void input_data(struct meal *cal_meal, struct food_category *bob, struct food_ca
 					if (flag == 1)break;//중복 발견
 
 				}
-				if (flag == 1)break;//중복 발견
+				if (flag == 1)break;//결국 중복 발견
 				
 			}
 

@@ -3,7 +3,7 @@
 void gotoxy(int, int);
 void drawMenu();
 void drawTable(int, int);
-void storeData();
+void storeData(struct food_category *bob, struct food_category *gook, struct food_category *jjige, struct food_category *banchan, struct food_category *bread_meal, struct food_category *noodle);
 
 
 void main() {
@@ -12,23 +12,27 @@ void main() {
 	system("mode con:cols=160 lines=60");
 	system("title ½Ä´ÜÇ¥");
 
-	drawTable(2, 2);
+	
 
-	struct food_category bob = { {2}, "Çö¹Ì¹ä","°ËÀºÄá¹ä","Àâ°î¹ä","°ïµå·¹¹ä","½Ò¹ä","Å¬·Î·¼¶ó¹ä","°¨ÀÚ¹ä","¹äÁà¿ë","¹ä1","¹ä2","¹ä3" };
+	struct food_category bob = { {4}, "Çö¹Ì¹ä","°ËÀºÄá¹ä","Àâ°î¹ä","°ïµå·¹¹ä","½Ò¹ä"};
 	struct food_category gook = { {2}, "¼Ò°í±â±¹","¹Ì¿ª±¹","¹«±¹","±¹1","±¹2","±¹3","±¹4","±¹5","±¹6","±¹7","±¹8" };
-	struct food_category banchan = { {3}, "¼Ò°í±âÀåÁ¶¸²","¸êÄ¡ººÀ½","¹ÝÂù1","¹ÝÂù2","¹ÝÂù3","¹ÝÂù4","¹ÝÂù5","¹ÝÂù6","¹ÝÂù7","¹ÝÂù8","¹ÝÂù9" };
+	struct food_category banchan = { {4}, "¼Ò°í±âÀåÁ¶¸²","¸êÄ¡ººÀ½","¹ÝÂù1","¹ÝÂù2","¹ÝÂù3","¹ÝÂù4","¹ÝÂù5","¹ÝÂù6","¹ÝÂù7","¹ÝÂù8","¹ÝÂù9" };
 	struct food_category jjige = { {2}, "±èÄ¡Âî°³","µÈÀåÂî°³","Âî°³1","Âî°³2","Âî°³3","Âî°³4","Âî°³5","Âî°³6","Âî°³7","Âî°³8","Âî°³9" };
-	struct food_category bread_meal = { {0} };//»§½Ä
-	struct food_category noodle = { {0} };//¸é Á¾·ù
+	struct food_category bread_meal = { {2}, "ÇÜÄ¡ÁîÅä½ºÆ®", "Äí¹Ù»÷µåÀ§Ä¡", "µµ³ÊÃ÷", "»ýÅ©¸²»§", "Âß»§" };//»§½Ä
+	struct food_category noodle = { {2}, "Ä®±¹¼ö", "³Ã¸é" };//¸é Á¾·ù
 
 
 
 	struct meal *cal_meal = (struct meal *)malloc(sizeof(struct meal)*365);
 	srand((unsigned int)time(NULL));
-	input_data(cal_meal, &bob, &gook, &jjige, &banchan);
+	
+	
+	system("cls");
+	drawTable(2, 2);
+	input_data(cal_meal, &bob, &gook, &jjige, &banchan, &bread_meal, &noodle);
+
 	drawData(cal_meal, &index_right, &index_left);
-	
-	
+
 
 	do {
 		
@@ -44,7 +48,6 @@ void main() {
 				//¿À¸¥ÂÊ
 				break;
 			case 75:
-
 				system("cls");
 				drawTable(2, 2);
 				drawData_left(cal_meal, &index_right, &index_left);
@@ -57,18 +60,30 @@ void main() {
 
 		else {//¿©±ä ¸Þ´º ¹öÆ°
 			switch (keyboard_value) {
-			case 59:
+			case 59://·£´ý ½Ä´Ü Â¥±â
 				system("cls");
-				gotoxy(35, 35);
-				printf("F1 press!\n");
+				free(cal_meal);
+				cal_meal = (struct meal *)malloc(sizeof(struct meal ) * 365);
+				input_data(cal_meal, &bob, &gook, &jjige, &banchan, &bread_meal, &noodle);
+				drawTable(2, 2);
+				index_right = 0;
+				drawData(cal_meal, &index_right, &index_left);
+
+			case 60://°Ç°­½Ä Â¥±â
+				/*°Ç°­½Ä Â¥±â ±¸Çö ÇÊ¿ä*/
+
 				break;
-			case 60:
+			case 61://À½½Ä °Ë»ö, Ãß°¡¹× »èÁ¦
+				
+				system("cls");
+				drawSquare(2, 2);
+				storeData(&bob, &gook, &jjige, &banchan, &bread_meal, &noodle);				
 				break;
-			case 61:
+				
+			case 62://ÀúÀåÇÏ±â
 				break;
-			case 62:
-				break;
-			case 63:
+			case 63://Á¾·áÇÏ±â
+				exit(0);
 				break;
 			default:;
 			}
@@ -77,8 +92,7 @@ void main() {
 		
 	} while (1);
 
-	//printf("%d\n", cal_meal->meal_num);
-	gotoxy(159, 49);
+
 
 
 
