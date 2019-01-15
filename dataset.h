@@ -5,14 +5,24 @@
 #include <time.h>
 #pragma warning(disable: 4996)
 
+
+typedef struct food_category NODE;//모든 음식들은 연결 리스트 자료구조 형식을 취함.
+
+
 void drawData(struct meal *, int *, int*);
 void drawData_left(struct meal *, int *, int*);
 void gotoxy(int, int);
 void drawMenu();
 void drawTable(int, int);
 void input_data(struct meal *, struct food_category *, struct food_category *, struct food_category *, struct food_category *, struct food_category *, struct food_category *);
-void storeData(struct food_category *, struct food_category *, struct food_category *, struct food_category *, struct food_category *, struct food_category *);
+void storeData(struct food_category **, struct food_category **, struct food_category **, struct food_category **, struct food_category **, struct food_category **, struct food_category **);
 void drawSquare(int , int );
+void storeDataAsNode(NODE **);
+char* food_name(NODE *);
+int food_name_number(NODE *);
+void remover_LinkedList(NODE **);
+void remover_FoodName(NODE **, char *);
+void readFrFile(char *, struct food_category **, struct food_category **, struct food_category **, struct food_category **, struct food_category **, struct food_category **, struct food_category **);
 
 
 
@@ -29,9 +39,11 @@ struct meal {
 };
 
 struct food_category {
-	int num;//해당 카테고리화 된 음식의 개수
-	char food_name[100][16];
-	int calorie[100];
+	//int num;//해당 카테고리화 된 음식의 개수
+	char food_name[16];
+	int calorie;
+	int price;
+	struct food_category *link;//자기 참조 구조체
 };
 
 struct blankcoord

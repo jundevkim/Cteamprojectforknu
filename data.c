@@ -1,65 +1,162 @@
 #include "dataset.h"
 
-void storeData(struct food_category *bob, struct food_category *gook, struct food_category *jjige, struct food_category *banchan, struct food_category *bread_meal, struct food_category *noodle) {
+
+
+void storeData(struct food_category **food, struct food_category **bob, struct food_category **gook, struct food_category **jjige, struct food_category **banchan, struct food_category **bread_meal, struct food_category **noodle) {
 	/*
 		음식을 추가하고, 카테고리 별로 본류합니다.
 		각각의 카테고리는 몇 종류의 음식이 있는지와 음식 이름을 데이터로 가지고 있습니다.
 	*/
+		NODE *tmp, *new_node, *new_node_sub;
+		
+		new_node = (NODE *)malloc(sizeof(NODE));
+		new_node->link = NULL;
+		tmp = *food;
 
+		gets(new_node->food_name);
+		
+		if (tmp == NULL) {
+			//빈 연결 리스트면 첫 번째 노드를 연결
+			*food = new_node;
+		}
+
+		else {
+			while (tmp->link != NULL) {
+				tmp = tmp->link;
+			}
+			tmp->link = new_node;
+		}
+		
 	
-
-
-		char tmp[16];
-
-		int index ;//음식 카테고리에 대한 index값
+		/*****************음식 분류**************************/
 		
-		fflush(stdin);
-		gets(tmp);
-		
-
-			if (strstr(tmp, "밥") != NULL) {
-				index = (*bob).num;				
-				strcpy((*bob).food_name[index], tmp);
-				((*bob).num)++;
-
-			}
-			else if (strstr(tmp, "국수") != NULL) {
-				index = (*noodle).num;
-				strcpy((*noodle).food_name[index], tmp);
-				((*noodle).num)++;
-			}
-			else if (strstr(tmp, "국") != NULL) {
-				index = (*gook).num;
-				strcpy((*gook).food_name[index], tmp);
-				((*gook).num)++;
-
-			}
-			else if (strstr(tmp, "찌개") != NULL) {
-				index = (*jjige).num;
-				strcpy((*jjige).food_name[index], tmp);
-				((*jjige).num)++;
+			if (strstr(new_node->food_name, "밥") != NULL) {
+				tmp = *bob;
+				new_node_sub = (NODE *)malloc(sizeof(NODE));
+				new_node_sub->link = NULL;
+				strcpy(new_node_sub->food_name, new_node->food_name);
+				if (tmp == NULL) {
+					//빈 연결 리스트면 첫 번째 노드를 연결
+					*bob = new_node_sub;
+				}
 				
-			}
-			else if (strstr(tmp, "토스트") != NULL || strstr(tmp, "샌드위치") != NULL || strstr(tmp, "빵") != NULL) {
-				index = (*bread_meal).num;				
-				strcpy((*bread_meal).food_name[index], tmp);				
-				((*bread_meal).num)++;
+				else {
+					
+					while (tmp->link != NULL) {
+						tmp = tmp->link;
+						
+					}
+					
+					
+					tmp->link = new_node_sub;
+					printf("1\n");
+				}
 				
+
+			}
+			else if (strstr(new_node->food_name, "국수") != NULL) {
+				tmp = *noodle;
+				new_node_sub = (NODE *)malloc(sizeof(NODE));
+				new_node_sub->link = NULL;
+				strcpy(new_node_sub->food_name, new_node->food_name);
+
+				if (tmp == NULL) {
+					//빈 연결 리스트면 첫 번째 노드를 연결
+					*noodle = new_node_sub;
+				}
+
+				else {
+					while (tmp->link != NULL) {
+						tmp = tmp->link;
+					}
+					tmp->link = new_node_sub;
+				}
+			}
+			else if (strstr(new_node->food_name, "국") != NULL) {
+				tmp = *gook;
+				new_node_sub = (NODE *)malloc(sizeof(NODE));
+				new_node_sub->link = NULL;
+				strcpy(new_node_sub->food_name, new_node->food_name);
+
+				if (tmp == NULL) {
+					//빈 연결 리스트면 첫 번째 노드를 연결
+					*gook = new_node_sub;
+				}
+
+				else {
+					while (tmp->link != NULL) {
+						tmp = tmp->link;
+					}
+					tmp->link = new_node_sub;
+				}
+
+			}
+			else if (strstr(new_node->food_name, "찌개") != NULL) {
+				tmp = *jjige;
+				new_node_sub = (NODE *)malloc(sizeof(NODE));
+				new_node_sub->link = NULL;
+				strcpy(new_node_sub->food_name, new_node->food_name);
+
+				if (tmp == NULL) {
+					//빈 연결 리스트면 첫 번째 노드를 연결
+					*jjige = new_node_sub;
+				}
+
+				else {
+					while (tmp->link != NULL) {
+						tmp = tmp->link;
+					}
+					tmp->link = new_node_sub;
+				}
+
+			}
+			else if (strstr(new_node->food_name, "토스트") != NULL || strstr(new_node->food_name, "샌드위치") != NULL || strstr(new_node->food_name, "빵") != NULL) {
+				tmp = *bread_meal;
+				new_node_sub = (NODE *)malloc(sizeof(NODE));
+				new_node_sub->link = NULL;
+				strcpy(new_node_sub->food_name, new_node->food_name);
+
+				if (tmp == NULL) {
+					//빈 연결 리스트면 첫 번째 노드를 연결
+					*bread_meal = new_node_sub;
+				}
+
+				else {
+					while (tmp->link != NULL) {
+						tmp = tmp->link;
+					}
+					tmp->link = new_node_sub;
+				}
+
 			}
 			else {
-				index = (*banchan).num;
-				strcpy((*banchan).food_name[index], tmp);
-				((*banchan).num)++;
+				tmp = *banchan;
+				new_node_sub = (NODE *)malloc(sizeof(NODE));
+				new_node_sub->link = NULL;
+				strcpy(new_node_sub->food_name, new_node->food_name);
+				
+				if (tmp == NULL) {
+					//빈 연결 리스트면 첫 번째 노드를 연결
+					*banchan = new_node_sub;
+				}
 
+				else {
+					while (tmp->link != NULL) {
+						tmp = tmp->link;
+					}
+					tmp->link = new_node_sub;
+				}
+			
 			}//반찬임, 반찬은 구분할 수 있게 해줄 음운이 안 보여서 마지막에 놔두게 좋을듯
+
+
+
+			
+
+			
+			printf("음식 추가!\n");
+			
 		
-
-
-
-	
-
-			printf("음식 추가!");
-			Sleep(2000);
 
 }
 
@@ -104,21 +201,21 @@ void input_data(struct meal *cal_meal, struct food_category *bob, struct food_ca
 				switch ((cal_meal + i)->meal_num) {//3 또는 2식 짜는 부분
 				case 3:
 					if (rand() % 2 == 0) {
-						strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % ((*bob).num)]);
-						strcpy((cal_meal + i)->meal_menu[1], (*gook).food_name[rand() % ((*gook).num)]);
-						strcpy((cal_meal + i)->meal_menu[2], (*banchan).food_name[rand() % ((*banchan).num)]);
+						strcpy((cal_meal + i)->meal_menu[0], (food_name(bob)));
+						strcpy((cal_meal + i)->meal_menu[1], (food_name(gook)));
+						strcpy((cal_meal + i)->meal_menu[2], (food_name(banchan)));
 					}
 					else {
-						strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % ((*bob).num)]);
-						strcpy((cal_meal + i)->meal_menu[1], (*jjige).food_name[rand() % ((*jjige).num)]);
-						strcpy((cal_meal + i)->meal_menu[2], (*banchan).food_name[rand() % ((*banchan).num)]);
+						strcpy((cal_meal + i)->meal_menu[0], (food_name(bob)));
+						strcpy((cal_meal + i)->meal_menu[1], (food_name(jjige)));
+						strcpy((cal_meal + i)->meal_menu[2], (food_name(banchan)));
 
 					}
 
 					break;
 				case 2:
-					strcpy((cal_meal + i)->meal_menu[0], (*bob).food_name[rand() % ((*bob).num)]);
-					strcpy((cal_meal + i)->meal_menu[1], (*jjige).food_name[rand() % ((*jjige).num)]);
+					strcpy((cal_meal + i)->meal_menu[0], (food_name(bob)));
+					strcpy((cal_meal + i)->meal_menu[1], (food_name(jjige)));
 
 
 					break;
@@ -132,11 +229,11 @@ void input_data(struct meal *cal_meal, struct food_category *bob, struct food_ca
 			}
 			else {//단일식 짜는 부분
 				(cal_meal + i)->meal_num = 1;
-				if ((*bread_meal).num > 0 && (*noodle).num > 0) {
+				if (food_name_number(bread_meal) > 0 && food_name_number(noodle) > 0) {
 					switch (rand() % 2 + 1) {
-					case 1:strcpy((cal_meal + i)->meal_menu[0], (*noodle).food_name[rand() % ((*noodle).num)]);
+					case 1:strcpy((cal_meal + i)->meal_menu[0], (food_name(noodle)));
 						break;
-					case 2:strcpy((cal_meal + i)->meal_menu[0], (*bread_meal).food_name[rand() % ((*bread_meal).num)]);
+					case 2:strcpy((cal_meal + i)->meal_menu[0], (food_name(bread_meal)));
 						break;
 					default:
 						system("cls");
@@ -194,6 +291,312 @@ void input_data(struct meal *cal_meal, struct food_category *bob, struct food_ca
 	}
 	
 	
+}
+
+void find_food_propertise(NODE *food, char *target) {
+	/*********************
+
+	찾고자 하는 음식의 이름을 입력하면 
+	음식의 칼로리와 가격을 표시해줌
+
+	**********************/
+
+	NODE *tmp, *prev;
+	tmp = food;
+	prev = tmp;
+
+	if (strcmp(tmp->food_name, target) == 0) {
+		printf("음식 이름 : %s", tmp->food_name);
+		printf("칼로리 : %d(kal)", tmp->calorie);
+		printf("가격 : %d원", tmp->price);
+		return;
+	}
+
+	while (1) {
+
+
+		if (strcmp(tmp->food_name, target) == 0) {
+			//해당 음식을 발견했다면 지우고 해당 카테고리의 다른 음식 node를 연결
+			printf("음식 이름 : %s", tmp->food_name);
+			printf("칼로리 : %d(kal)", tmp->calorie);
+			printf("가격 : %d원", tmp->price);
+			return;
+
+
+		}
+		else {
+			prev = tmp;
+			tmp = tmp->link;
+		}
+	}
+	printf("해당 음식은 없습니다!");
+	Sleep(1500);
+	system("cls");
+
+
+}
+
+
+char* food_name(NODE *food) {
+	/*********************
+
+	해당 카테고리에 있는 음식들중에서
+	무작위로 하나를 반환해주는 함수
+	
+	**********************/
+	int count = 0, rand_i, i;//노드(음식) 개수
+	NODE *tmp;
+
+
+	tmp = food;
+	count = food_name_number(tmp);
+	/*
+	while (1) {
+		if (tmp == NULL) {
+			break;
+		}
+		else {
+			count++;
+			tmp = tmp->link;
+		}
+	}
+	*/
+	
+	rand_i = rand() % count;
+	for (i = 0; i < rand_i; i++) {
+		tmp = tmp->link;
+	}
+	return tmp->food_name;
+
+}
+
+
+int food_name_number(NODE *food) {
+	/*********************
+
+	해당 카테고리화된 음식이 
+	몇개있는지 알려주는 함수
+
+	**********************/
+	int count = 0, rand_i, i;//노드(음식) 개수
+	NODE *tmp;
+
+
+	tmp = food;
+	while (1) {
+		if (tmp == NULL) {
+			break;
+		}
+		else {
+			count++;
+			tmp = tmp->link;
+		}
+	}
+	
+	return count;
+
+}
+
+void remover_FoodName(NODE **p, char *target) {
+	NODE *tmp, *prev;
+	tmp = *p;
+	prev = tmp;
+
+	if (strcmp(tmp->food_name, target) == 0) {
+		*p = tmp->link;
+		free(tmp);
+		return;
+	}
+
+	while (1) {
+		
+
+		if (strcmp(tmp->food_name, target) == 0) {
+			//해당 음식을 발견했다면 지우고 해당 카테고리의 다른 음식 node를 연결
+			prev->link = tmp->link;
+			free(tmp);
+			return;
+
+
+		}
+		else {
+			prev = tmp;
+			tmp = tmp->link;
+		}
+	}
+	printf("해당 음식은 없습니다!");
+	Sleep(1500);
+	system("cls");
+	
+}
+
+void remover_LinkedList(NODE **p) {
+	//연결 리스트p를 메모리 해제 하는 함수
+
+	NODE *tmp, *cur;
+	tmp = *p;
+
+	while (tmp != NULL) {
+		cur = tmp->link;
+		free(tmp);
+		tmp = cur;
+	}
+
+}
+
+void readFrFile(char * filename, NODE **food, NODE **bob, NODE **gook, NODE **banchan, NODE **jjige, NODE **bread_meal, NODE **noodle) {
+
+	/************************************
+	파일로부터 데이터를 읽어서 
+	음식에 대한 연결리스트 자료 구조 형성
+	************************************/
+
+	FILE *fp;
+	NODE *new_node, *tmp_1 ,*new_node_sub ,*tmp;
+
+	fp = fopen(filename, "rt");
+	if (fp == NULL) {
+		printf("해당 파일은 없습니다!\n");
+		return;
+	}
+	tmp_1 = *food;
+	while (!feof(fp)) {
+		new_node = (NODE *)malloc(sizeof(NODE));
+		new_node->link = NULL;
+		fscanf(fp, "%s %d %d", new_node->food_name, &new_node->price, &new_node->calorie);
+
+		if (tmp_1 == NULL) {
+			*food = new_node;
+			tmp_1 = new_node;
+			
+		}
+		else {
+			tmp_1->link = new_node;
+			tmp_1 = tmp_1->link;
+		}
+
+		if (strstr(new_node->food_name, "밥") != NULL) {
+			tmp = *bob;
+			new_node_sub = (NODE *)malloc(sizeof(NODE));
+			new_node_sub->link = NULL;
+			strcpy(new_node_sub->food_name, new_node->food_name);
+			if (tmp == NULL) {
+				//빈 연결 리스트면 첫 번째 노드를 연결
+				*bob = new_node_sub;
+			}
+
+			else {
+
+				while (tmp->link != NULL) {
+					tmp = tmp->link;
+
+				}
+
+
+				tmp->link = new_node_sub;
+				printf("1\n");
+			}
+
+
+		}
+		else if (strstr(new_node->food_name, "국수") != NULL) {
+			tmp = *noodle;
+			new_node_sub = (NODE *)malloc(sizeof(NODE));
+			new_node_sub->link = NULL;
+			strcpy(new_node_sub->food_name, new_node->food_name);
+
+			if (tmp == NULL) {
+				//빈 연결 리스트면 첫 번째 노드를 연결
+				*noodle = new_node_sub;
+			}
+
+			else {
+				while (tmp->link != NULL) {
+					tmp = tmp->link;
+				}
+				tmp->link = new_node_sub;
+			}
+		}
+		else if (strstr(new_node->food_name, "국") != NULL) {
+			tmp = *gook;
+			new_node_sub = (NODE *)malloc(sizeof(NODE));
+			new_node_sub->link = NULL;
+			strcpy(new_node_sub->food_name, new_node->food_name);
+
+			if (tmp == NULL) {
+				//빈 연결 리스트면 첫 번째 노드를 연결
+				*gook = new_node_sub;
+			}
+
+			else {
+				while (tmp->link != NULL) {
+					tmp = tmp->link;
+				}
+				tmp->link = new_node_sub;
+			}
+
+		}
+		else if (strstr(new_node->food_name, "찌개") != NULL) {
+			tmp = *jjige;
+			new_node_sub = (NODE *)malloc(sizeof(NODE));
+			new_node_sub->link = NULL;
+			strcpy(new_node_sub->food_name, new_node->food_name);
+
+			if (tmp == NULL) {
+				//빈 연결 리스트면 첫 번째 노드를 연결
+				*jjige = new_node_sub;
+			}
+
+			else {
+				while (tmp->link != NULL) {
+					tmp = tmp->link;
+				}
+				tmp->link = new_node_sub;
+			}
+
+		}
+		else if (strstr(new_node->food_name, "토스트") != NULL || strstr(new_node->food_name, "샌드위치") != NULL || strstr(new_node->food_name, "빵") != NULL) {
+			tmp = *bread_meal;
+			new_node_sub = (NODE *)malloc(sizeof(NODE));
+			new_node_sub->link = NULL;
+			strcpy(new_node_sub->food_name, new_node->food_name);
+
+			if (tmp == NULL) {
+				//빈 연결 리스트면 첫 번째 노드를 연결
+				*bread_meal = new_node_sub;
+			}
+
+			else {
+				while (tmp->link != NULL) {
+					tmp = tmp->link;
+				}
+				tmp->link = new_node_sub;
+			}
+
+		}
+		else {
+			tmp = *banchan;
+			new_node_sub = (NODE *)malloc(sizeof(NODE));
+			new_node_sub->link = NULL;
+			strcpy(new_node_sub->food_name, new_node->food_name);
+
+			if (tmp == NULL) {
+				//빈 연결 리스트면 첫 번째 노드를 연결
+				*banchan = new_node_sub;
+			}
+
+			else {
+				while (tmp->link != NULL) {
+					tmp = tmp->link;
+				}
+				tmp->link = new_node_sub;
+			}
+
+		}//반찬임, 반찬은 구분할 수 있게 해줄 음운이 안 보여서 마지막에 놔두게 좋을듯
+
+	}
+	fclose(fp);
+
 }
 
 
